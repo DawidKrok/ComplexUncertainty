@@ -1,0 +1,12 @@
+[package]
+name = "mongo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+models = { path = "../models" }
+
+serde = { version = "1.0.104", features = ["derive"] }
+mongodb = "2.2"
+futures = "0.3"
+bson = "2.3"
