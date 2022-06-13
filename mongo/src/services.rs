@@ -5,6 +5,10 @@ use std::error::Error;
 
 use crate::DB;
 
+// ----------------------------------------------------------------------------||
+// File for implementing functions handling collections in Database (Services) ||
+// ----------------------------------------------------------------------------||
+
 // ==========| TODO Services |==========
 impl DB {
     /// Insert `Todo` into database and returns `id` of added document.

@@ -22,7 +22,7 @@ async fn main() -> io::Result<()> {
 
     HttpServer::new(move || {
         App::new()
-            // add App rescources
+            // add App rescources (in this way every route can have access to DB object)
             .app_data(db.clone())
             //=======| REGISTER ROUTES |=======
             .configure(routes::config)

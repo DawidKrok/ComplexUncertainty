@@ -1,5 +1,6 @@
 use actix_web::web;
 
+/// Function registering all Routes from `routes.rs`
 pub fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/todo")
@@ -14,7 +15,7 @@ pub fn config(cfg: &mut web::ServiceConfig) {
 
 
 //==========| ROUTES |=========
-/// Mod containing routes for handling Todo 
+/// Mod containing routes for handling 'Todo' 
 mod todo {
     use actix_web::{HttpResponse, get, post, Responder, web};
     use models::Todo;
