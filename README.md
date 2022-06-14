@@ -21,5 +21,5 @@ This base project has services for adding, getting, updating and deleting data f
 
 ### server
 Contains [`main`](server/src/main.rs) binary file that runs Actix's [`HttpServer`](https://actix.rs/docs/server/).  
-[`config.rs`](server/src/config.rs) loads variables from `.env` file.
-[`routes.rs`](server/src/routes.rs) contains modules with [handlers](https://actix.rs/docs/handlers/). They're meant to assign `services` (e.g. like the ones from `mongo` crate) to certain endpoints and handle exceptions.
+[`config.rs`](server/src/config.rs) loads variables from `.env` file.  
+[`routes.rs`](server/src/routes.rs) contains modules with [handlers](https://actix.rs/docs/handlers/). They're meant to assign `services` (e.g. like the ones from `mongo` crate) to endpoints and handle exceptions.
