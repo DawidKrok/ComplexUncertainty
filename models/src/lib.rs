@@ -8,7 +8,7 @@ pub struct Todo {
 }
 
 impl Todo {
-    /// Tag convention: tag can be used wherever a string representation of object is needed 
+    /// Tag convention: tag can be used wherever a string representation of object's name is needed 
     /// (e.g. Collection name in MongoDB)
     pub const TAG: &'static str = "todo";
 
