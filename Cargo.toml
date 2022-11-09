@@ -2,7 +2,5 @@
 
 members = [
     "server",
-    "models",
-    "mongo",
     "tests",
 ]

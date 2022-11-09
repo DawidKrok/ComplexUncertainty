@@ -7,18 +7,10 @@ pub struct ServerConfig {
     pub port: u16,
 }
 
-#[derive(Deserialize)]
-pub struct MongoConfig {
-    pub uri: String,
-    pub db: String,
-}
-
-
 /// holds basic config variables from .env file
 #[derive(Deserialize)]
 pub struct Config {
     pub server: ServerConfig,
-    pub mongo: MongoConfig,
 }
 
 impl Config {

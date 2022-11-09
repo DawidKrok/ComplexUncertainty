@@ -1,52 +1,7 @@
 @host = http://localhost:8080
 
 ###
-#   =========================
-#   TODO
-#   =========================
-###
 
-POST {{host}}/todo/add
-Content-Type: application/json
-
-{
-    "title": "NEW",
-    "description": "DESCRIPTION"
-}
+GET {{host}}/
 
 ###
-
-POST {{host}}/todo/get
-Content-Type: application/json
-
-{
-    "id": "62a34c7e1bb134a7ff5d08c9"
-}
-
-###
-
-GET {{host}}/todo/get/62a34c7e1bb134a7ff5d08c9
-
-###
-
-GET {{host}}/todo/all
-
-###
-
-POST {{host}}/todo/update
-Content-Type: application/json
-
-{
-    "id": "62a5f7b5bde269a29aa4db7a",
-    "title": "updated",
-    "description": "UPDATED"
-}
-
-###
-
-POST {{host}}/todo/delete
-Content-Type: application/json
-
-{
-    "id": "62a5f7b5bde269a29aa4db7a"
-}

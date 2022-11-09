@@ -1,9 +1,7 @@
-use actix_web::{HttpServer, App, web};
+use actix_web::{HttpServer, App};
 use listenfd::ListenFd;
 use std::io;
 use dotenv::dotenv;
-
-use mongo;
 
 mod config;
 mod routes;
@@ -14,12 +12,6 @@ async fn main() -> io::Result<()> {
     // load variables from .env file
     dotenv().ok();
     let config = config::Config::from_env().unwrap();
-
-    // web::Data will be used as App rescource and will share DB instance between all routes.
-    let db = web::Data::new(
-        mongo::DB::connect(&config.mongo.uri, &config.mongo.db).await.unwrap()
-    );
-    eprintln!("\x1b[42mConnected to MongoDB database \x1b[0m {}", config.mongo.db);
     
     // listenfd is used with cargo watch to reload API on every change
     // listenfd is responsible for keeping the Socket open while the project recompiles, so when it's ready, it will respond to waiting requests
@@ -27,8 +19,6 @@ async fn main() -> io::Result<()> {
 
     let mut server = HttpServer::new(move || {
         App::new()
-            // add App rescources (in this way every route can have access to DB instance)
-            .app_data(db.clone())
             //=======| REGISTER ROUTES |=======
             .configure(routes::config)
     });
