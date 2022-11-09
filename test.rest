@@ -2,6 +2,6 @@
 
 ###
 
-GET {{host}}/
+GET {{host}}/static/html/index.html
 
 ###

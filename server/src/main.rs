@@ -1,4 +1,5 @@
 use actix_web::{HttpServer, App};
+use actix_files::Files;
 use listenfd::ListenFd;
 use std::io;
 use dotenv::dotenv;
@@ -19,7 +20,9 @@ async fn main() -> io::Result<()> {
 
     let mut server = HttpServer::new(move || {
         App::new()
-            //=======| REGISTER ROUTES |=======
+            //=====| REGISTER RESCOURCE FILES |=====
+            .service(Files::new("/static", "./server/static").show_files_listing())
+            //=========| REGISTER ROUTES |==========
             .configure(routes::config)
     });
     

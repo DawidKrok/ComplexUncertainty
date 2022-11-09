@@ -8,14 +8,19 @@ pub fn config(cfg: &mut web::ServiceConfig) {
 }
 
 
+
 //==========| ROUTES |========= 
 mod pages {
-    use actix_web::{HttpResponse, get, Responder, post};
+    use actix_files::NamedFile;
+    use std::path::PathBuf;
+    use actix_web::{get, Error};
+
+    const HTML_PATH: &str = "./server/static/html/";
 
     // ===========| GET |===========
     #[get("/")]
-    async fn index() -> impl Responder {
-        HttpResponse::Ok()
-            .json("k")
+    async fn index() -> Result<NamedFile, Error> {
+        let path: PathBuf = format!("{}{}", HTML_PATH, "/index.html").parse().unwrap();
+        Ok(NamedFile::open(path)?)
     }
 }
