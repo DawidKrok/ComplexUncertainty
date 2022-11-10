@@ -26,3 +26,6 @@ formula_in.onchange = () => {
 
     MathJax.typesetPromise()
 }
+
+// Copy the LaTex inside button 
+tex_btn.onclick = () => { navigator.clipboard.writeText(tex_btn.value) }

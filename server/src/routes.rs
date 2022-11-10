@@ -18,7 +18,7 @@ mod pages {
     // ===========| GET |===========
     #[get("/")]
     async fn index() -> Result<NamedFile, Error> {
-        let path: PathBuf = "./static/html//index.html".parse().unwrap();
+        let path: PathBuf = "./static/html/index.html".parse().unwrap();
         Ok(NamedFile::open(path)?)
     }
 }

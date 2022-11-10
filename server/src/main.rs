@@ -20,7 +20,7 @@ async fn main() -> io::Result<()> {
 
     let mut server = HttpServer::new(move || {
         App::new()
-            //=====| REGISTER RESCOURCE FILES |=====
+            //======| REGISTER STATIC FILES |=======
             .service(Files::new("/static", "./static").show_files_listing())
             //=========| REGISTER ROUTES |==========
             .configure(routes::config)
