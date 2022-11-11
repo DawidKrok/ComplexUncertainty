@@ -1,0 +1,27 @@
+#params_container {
+    width: 60vw;
+    display: flex;
+    flex-direction: column;
+}
+
+#params_container > header {
+    height: 20vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#param_add {
+    width: 12vh;
+    height: 12vh;
+}
+
+.param_card {
+    margin: 2vh 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.param_card > input {
+    width: 10vw;
+}
