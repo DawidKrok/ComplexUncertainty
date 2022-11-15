@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="static/css/index.css">
 
 <h1>Formula:</h1>
-<input type="text" id="formula_in">
+<input type="text" id="formula_in" onchange="updateLatex()">
 <div id="params_container">
     <header>
         <h1>Params:</h1>
@@ -16,9 +16,9 @@
     </header>
 
     <div class="param_card">
-        <input type="text" id="params_in" class="param_name" value="x">
-        <input type="number" class="param_value" value="10">
-        <input type="number" class="param_uncer" value="0.1">
+        <input type="text" id="params_in" class="param_name" value="x" onchange="updateLatex()">
+        <input type="number" class="param_value" value="10" onchange="updateLatex()">
+        <input type="number" class="param_uncer" value="0.1" onchange="updateLatex()">
     </div>
 </div>
 <div class="tex_container">

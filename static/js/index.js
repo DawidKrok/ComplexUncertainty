@@ -11,7 +11,7 @@ class Param {
 /// TODO: Use is_const flag to skip derivatives of constant terms
 
 // ===== | GENERATE FORMULA | =====
-formula_in.onchange = () => {
+updateLatex = () => {
     params = get_params() 
 
     scope = new Map()
@@ -45,7 +45,6 @@ formula_in.onchange = () => {
         evaluated_latex += `\\big( ${expr.evaluate(scope).toFixed(4) } \\cdot ${p.uncer} \\big)^2`
 
         whole_expr += Math.pow(expr.evaluate(scope) * p.uncer, 2)
-        console.log(whole_expr, expr.evaluate(scope), p.uncer)
     }
     general_latex += "}"
     evaluated_latex += "}"
@@ -71,9 +70,9 @@ tex_btn.onclick = () => { navigator.clipboard.writeText(tex_btn.value) }
 // Add Param Card
 param_add.onclick = () => {
     node = $("<div class='param_card'></div>")
-    node.append('<input type="text" class="param_name">')
-    node.append('<input type="number" class="param_value" value="1">')
-    node.append('<input type="number" class="param_uncer" value="0.1">')    
+    node.append('<input type="text" class="param_name" onchange="updateLatex()">')
+    node.append('<input type="number" class="param_value" value="1" onchange="updateLatex()">')
+    node.append('<input type="number" class="param_uncer" value="0.1" onchange="updateLatex()">')    
 
     params_container.append(node[0])
 }
