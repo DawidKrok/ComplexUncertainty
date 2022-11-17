@@ -18,4 +18,4 @@ Contains [`main`](server/src/main.rs) binary file that runs Actix's [`HttpServer
 
 
 ## Static folder
-Contains all public rescources served to clients
+Contains all static recsources that'll be exposed to client.
