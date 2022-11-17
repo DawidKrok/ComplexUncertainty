@@ -35,7 +35,7 @@ async fn main() -> io::Result<()> {
         None => server.bind((config.server.host, config.server.port))?,
     };
 
-    eprintln!("\x1b[42mServer is running\x1b[0m");
+    eprintln!("\x1b[42mServer is running on port {}\x1b[0m", config.server.port);
 
     server.run()
     .await

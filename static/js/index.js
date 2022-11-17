@@ -12,8 +12,9 @@ class Param {
 
 // ===== | GENERATE FORMULA | =====
 updateLatex = () => {
-    params = get_params() 
+    params = getParams() 
 
+    // scope is for math.js' evaluate() - assigns values to variable names
     scope = new Map()
     for(p of params) { scope.set(p.name, p.value) }
     
@@ -53,14 +54,15 @@ updateLatex = () => {
     // ========= | DISPLAY LATEX | ========
     latex =`${general_latex} = ${evaluated_latex} = ${ Math.sqrt(whole_expr).toFixed(4) }`
 
-    tex_btn.value = latex
+    tex_btn.value = latex // LaTeX is stored in this button's value so it could be copied by user
     tex.innerHTML = `\\[ ${ latex } \\]`
 
+    // rerender LaTeX on page
     MathJax.typesetPromise()
 }
 
 // Copy the LaTex inside of button 
-tex_btn.onclick = () => { navigator.clipboard.writeText(tex_btn.value) }
+copyLatex = () => { navigator.clipboard.writeText(tex_btn.value) }
 
 
 
@@ -78,13 +80,13 @@ param_add.onclick = () => {
 }
 
 // gets parameters' values from all Param Cards
-get_params = () => {
+getParams = () => {
     params = []
     
     $(".param_card").each((i, elem) => {
         n = $( elem ).find(".param_name").val()
-        v = $( elem ).find(".param_value").val()
-        u = $( elem ).find(".param_uncer").val()
+        v = parseFloat( $( elem ).find(".param_value").val() )
+        u = parseFloat( $( elem ).find(".param_uncer").val() )
 
         // add param only if all values are populated
         if(n != "" && v != "" && u != "") {  
@@ -94,3 +96,57 @@ get_params = () => {
 
     return params
 }
+
+transpose = (array) => {
+    return array[0].map((_, colIndex) => array.map(row => row[colIndex]))
+}
+
+// ================== | EXCEL | =================
+generateExcel = (params) => {
+    data = []
+
+    // create matrice of params' names, values and uncertainty
+    for(p of params) {
+        //  if param is a constant, fill the column with param's value and skip uncer column
+        if(p.is_const) {
+            column = [p.name, ...Array(5).fill(p.value)]
+            data.push(column)
+            continue
+        }
+
+        // add value column
+        column = [p.name, ...[...Array(5).keys()].map(x => x + p.value)]
+        data.push(column)
+
+        // add uncer column
+        column = [`u(${p.name})`, ...[...Array(5).keys()].map(x => (x * .1) + p.uncer)]
+        data.push(column)
+    }
+
+    // TODO: create formulae based on math.js string expression and add it to data
+    // formulae = 
+    
+    data = transpose(data)
+
+    // generate XLSX workbook based on data
+    workbook = XLSX.utils.book_new()
+    worksheet = XLSX.utils.aoa_to_sheet(data)
+
+    workbook.SheetNames.push("First")
+    workbook.Sheets["First"] = worksheet
+
+    table_wrapper.innerHTML = XLSX.utils.sheet_to_html(worksheet)
+    
+    return workbook
+}
+
+generateExcel(getParams())
+
+downloadExcel = () => {
+    wb = generateExcel(getParams())
+
+    // XLSX.writeFile(wb, "demo.xlsx")
+}
+
+
+updateLatex()

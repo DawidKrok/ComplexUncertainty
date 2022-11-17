@@ -12,8 +12,9 @@
 }
 
 #param_add {
-    width: 12vh;
-    height: 12vh;
+    width: 9vh;
+    height: 9vh;
+    font-size: 6vh;
 }
 
 .param_card {
@@ -24,4 +25,50 @@
 
 .param_card > input {
     width: 10vw;
+}
+
+
+/* ===== | TABLE | ====== */
+/* Copied from freefrontend https://codepen.io/florantara/pen/dROvdb */
+
+#table_wrapper{
+    margin: 10px 70px 70px;
+    box-shadow: 0px 35px 50px rgba( 0, 0, 0, 0.2 );
+}
+
+#table_wrapper > table {
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: normal;
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+    background-color: white;
+}
+
+#table_wrapper > table td, #table_wrapper > table th {
+    text-align: center;
+    padding: 8px;
+}
+
+#table_wrapper > table td {
+    border-right: 1px solid #f8f8f8;
+    font-size: 12px;
+}
+
+#table_wrapper > table tr:first-child td {
+    color: #ffffff;
+    background: #4FC3A1;
+}
+
+
+#table_wrapper > table tr:first-child td:nth-child(odd) {
+    color: #ffffff;
+    background: #324960;
+}
+
+#table_wrapper > table tr:nth-child(even) {
+    background: #F8F8F8;
 }
