@@ -3,11 +3,14 @@
 
 // ===== | GENERATE FORMULA | =====
 updateLatex = () => {
-    params = getParams() 
+    updateParams() 
 
     // scope is for math.js' evaluate() - assigns values to variable names
     scope = new Map()
-    for(p of params) { scope.set(p.name, p.value) }
+    for(p of params) { 
+        scope.set(p.name, p.value)
+        if(!p.is_const) scope.set(`u${p.name}`, p.uncer)
+    }
     
     // ===== | GENERATE LATEX | =====
     general_latex = "u(y) = \\sqrt{"
@@ -53,7 +56,7 @@ updateLatex = () => {
     MathJax.typesetPromise()
 
     // ========= | DISPLAY EXCEL | ========
-    updateExcel(params, formula_in.value, "")
+    updateExcel(formula_in.value, "")
 }
 
 // Copy the LaTex inside of button 

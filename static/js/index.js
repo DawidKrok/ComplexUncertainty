@@ -8,6 +8,10 @@ class Param {
     }
 }
 
+var params = [],
+scope = new Map // to make name-values pairs for math evaluation of params and their uncertainties
+
+
 // Add Param Card
 param_add.onclick = () => {
     node = $("<div class='param_card'></div>")
@@ -18,8 +22,8 @@ param_add.onclick = () => {
     params_container.append(node[0])
 }
 
-// gets parameters' values from all Param Cards
-getParams = () => {
+// updates parameters' values based on all Param Cards
+updateParams = () => {
     params = []
     
     $(".param_card").each((i, elem) => {
@@ -32,8 +36,6 @@ getParams = () => {
             params.push(new Param(n, v, u, u == 0))
         }
     })
-
-    return params
 }
 
 updateLatex()
