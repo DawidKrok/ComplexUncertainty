@@ -9,8 +9,8 @@ convertFormula = formula => {
     // raplace param names to cell ranges
     w = []
     map.forEach((v, k) => { w.push(k) })
-    par_rg = new RegExp(w.join("|"), "g")
-    formula = formula.replace(par_rg, value => map.get(value) ) 
+    par_rg = new RegExp(`(?<!u)(${w.join("|")})`, "g")
+    formula = formula.replace(par_rg, prm => map.get(prm) ) 
 
     // replace all special symbols
     sym_rg = new RegExp("pi", "g")    
@@ -28,7 +28,7 @@ convertFormula = formula => {
 }
 
 
-updateExcel = (formula, u_formula) => {
+updateExcel = (u_formula) => {
     data = []
     map = new Map() // for formulae generation
     last_column = 1 // to determine which column is currently being populated
@@ -50,7 +50,7 @@ updateExcel = (formula, u_formula) => {
 
         // add map uncertainty key/value
         l = getLetter(last_column)
-        map.set(`u(${p.name})`, `${l}2:${l}6`)
+        map.set(`u${p.name}`, `${l}2:${l}6`)
         last_column++
 
         // add value column
@@ -70,7 +70,7 @@ updateExcel = (formula, u_formula) => {
     workbook = XLSX.utils.book_new()
     worksheet = XLSX.utils.aoa_to_sheet(data)
     
-    worksheet = addFormulae(worksheet, last_column, map)
+    worksheet = addFormulae(worksheet, last_column, u_formula)
 
     workbook.SheetNames.push("First")
     workbook.Sheets["First"] = worksheet
@@ -80,31 +80,42 @@ updateExcel = (formula, u_formula) => {
 }
 
 /// Adds formulae to worksheet based on formula
-addFormulae = (ws, last_column, map) => {
-    // TODO: create formulae based on formula and math.js string expression
+addFormulae = (ws, last_column, u_formula) => {
     l_f = getLetter(last_column) // formulae column letter
     l_u = getLetter(last_column+1) // formulae uncertainty column letter
 
-    // convert formula given by user to match Excel notation
-    formula = convertFormula(formula_in.value)
-
-    ex_scope = scope.valueOf() // to not override original scope
-
+    // TODO: check why math.evalueate differs from excel formulae values
+    console.log(convertFormula(u_formula))
     // ============ | INSERT FORMULAE | ==============
+    // ==== | ORIGINAL FORMULA | ====
     ws[`${l_f}2`] = { 
         t: "n", 
-        v: math.evaluate(formula_in.value, scope), 
+        v: math.evaluate(formula_in.value, scope).toFixed(4), 
         F: `${l_f}2:${l_f}6`, 
-        f: formula 
+        f: convertFormula(formula_in.value) // convert formula given by user to match Excel notation
+    }
+    // ==== | UNCERTAINTY FORMULA | ====
+    ws[`${l_u}2`] = { 
+        t: "n", 
+        v: math.evaluate(u_formula, scope).toFixed(4), 
+        F: `${l_u}2:${l_u}6`, 
+        f: convertFormula(u_formula) // convert uncertainty formula to match Excel notation
     }
 
     // populate the rest of the rows
     for(i = 3; i <= 6; i++) {
-        scope.forEach( (v, k) => ex_scope.set(k, v+1))
+        scope.forEach( (v, k) => scope.set(k, v+1))
+        // ==== | ORIGINAL FORMULA | ====
         ws[`${l_f}${i}`] = { 
             t: "n", 
-            v: math.evaluate(formula_in.value, ex_scope), 
+            v: math.evaluate(formula_in.value, scope).toFixed(4), 
             F: `${l_f}2:${l_f}6` 
+        }
+        // ==== | UNCERTAINTY FORMULA | ====
+        ws[`${l_u}${i}`] = { 
+            t: "n", 
+            v: math.evaluate(u_formula, scope).toFixed(4), 
+            F: `${l_u}2:${l_u}6` 
         }
     }
 

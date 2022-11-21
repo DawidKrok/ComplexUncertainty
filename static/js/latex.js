@@ -12,17 +12,16 @@ updateLatex = () => {
         if(!p.is_const) scope.set(`u${p.name}`, p.uncer)
     }
     
-    // ===== | GENERATE LATEX | =====
+    // ===== | GENERATE UNCERTAINTY FORMULA | =====
     general_latex = "u(y) = \\sqrt{"
     evaluated_latex = "\\sqrt{"
-    whole_expr = 0  // to determine final value
+    u_formula = "(" // for final value and excel formulae
 
     filtered_params = params.filter(pa => !pa.is_const)
     // iterate through all non constant params
     for(p of filtered_params) {
 
         derivative = math.derivative(formula_in.value, p.name)
-
         // skip and remove all non-contributing params (the ones listed in params list, but not included in formula)
         if(derivative.toTex() == "0")  {
             filtered_params = filtered_params.filter(par => par.name != p.name)
@@ -33,21 +32,21 @@ updateLatex = () => {
         if(p.name != filtered_params[0].name) {
             general_latex += " + "
             evaluated_latex += " + "
+            u_formula += " + "
         }  
         
         expr = derivative.compile()
 
+        u_formula += `(${derivative.toString()}*u${p.name})^2`
         general_latex += `\\Big(\\big(  ${derivative.toTex()}  \\big)\\:  u(${p.name})  \\Big)^2`
         evaluated_latex += `\\big( ${expr.evaluate(scope).toFixed(4) } \\cdot ${p.uncer} \\big)^2`
-
-        whole_expr += Math.pow(expr.evaluate(scope) * p.uncer, 2)
     }
     general_latex += "}"
     evaluated_latex += "}"
-    
+    u_formula += ")^.5"
 
     // ========= | DISPLAY LATEX | ========
-    latex =`${general_latex} = ${evaluated_latex} = ${ Math.sqrt(whole_expr).toFixed(4) }`
+    latex =`${general_latex} = ${evaluated_latex} = ${ math.evaluate(u_formula, scope).toFixed(4) }`
 
     tex_btn.value = latex // LaTeX is stored in this button's value so it could be copied by user
     tex.innerHTML = `\\[ ${ latex } \\]`
@@ -56,7 +55,7 @@ updateLatex = () => {
     MathJax.typesetPromise()
 
     // ========= | DISPLAY EXCEL | ========
-    updateExcel(formula_in.value, "")
+    updateExcel(u_formula)
 }
 
 // Copy the LaTex inside of button 
