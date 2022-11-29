@@ -4,8 +4,8 @@
 */
 
 // ===== | GENERATE FORMULA | =====
-updateLatex = () => {
-    updateParams()
+update_latex = () => {
+    update_params()
 
     // scope is for math.js' evaluate() - assigns values to variable names
     scope = new Map()
@@ -15,7 +15,7 @@ updateLatex = () => {
     }
 
     // ===== | GENERATE UNCERTAINTY FORMULA | =====
-    // base_latex = "" 
+    // base_latex = "e^{\\sin(x)}"
     general_latex = "u(y) = \\sqrt{"
     evaluated_latex = "\\sqrt{"
     u_formula = "(" // for final value and excel formulae
@@ -39,7 +39,7 @@ updateLatex = () => {
         }
 
         expr = derivative.compile()
-
+        // maunal delimiter really needed?
         u_formula += `(${derivative.toString()}*u${p.name})^2`
         general_latex += `\\Big(\\big(  ${derivative.toTex()}  \\big)\\:  u(${p.name})  \\Big)^2`
         evaluated_latex += `\\big( ${expr.evaluate(scope).toFixed(4)} \\cdot ${p.uncer} \\big)^2`
@@ -59,10 +59,10 @@ updateLatex = () => {
     MathJax.typesetPromise()
 
     // ========= | DISPLAY EXCEL | ========
-    updateExcel(u_formula)
+    update_excel(u_formula)
 }
 
 // Copy the LaTex inside of button 
-copyLatex = () => { navigator.clipboard.writeText(tex_btn.value) }
+copy_latex = () => { navigator.clipboard.writeText(tex_btn.value) }
 
 

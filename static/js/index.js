@@ -23,7 +23,7 @@ param_add.onclick = () => {
 }
 
 // updates parameters' values based on all Param Cards
-updateParams = () => {
+update_params = () => {
     params = []
 
     $(".param_card").each((i, elem) => {
@@ -38,4 +38,4 @@ updateParams = () => {
     })
 }
 
-updateLatex()
+update_latex()

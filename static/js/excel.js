@@ -1,11 +1,11 @@
 var workbook // to put it in outer scope and make it available for download
 
-getLetter = n => { return String.fromCharCode(n + 64) }
+get_letter = n => { return String.fromCharCode(n + 64) }
 
 transpose = array => { return array[0].map((_, colIndex) => array.map(row => row[colIndex])) }
 
 // changes formula string to match excel notation (like pi -> PI())
-convertFormula = formula => {
+convert_formula = formula => {
     // raplace param names to cell ranges
     w = []
     map.forEach((v, k) => { w.push(k) })
@@ -28,7 +28,7 @@ convertFormula = formula => {
 }
 
 
-updateExcel = (u_formula) => {
+update_excel = (u_formula) => {
     data = []
     map = new Map() // for formulae generation
     last_column = 1 // to determine which column is currently being populated
@@ -36,7 +36,7 @@ updateExcel = (u_formula) => {
     // create matrice of params' names, values and uncertainty
     for (p of params) {
         // add map key/value
-        l = getLetter(last_column)
+        l = get_letter(last_column)
         map.set(p.name, `${l}2:${l}6`)
         last_column++
 
@@ -49,7 +49,7 @@ updateExcel = (u_formula) => {
         }
 
         // add map uncertainty key/value
-        l = getLetter(last_column)
+        l = get_letter(last_column)
         map.set(`u${p.name}`, `${l}2:${l}6`)
         last_column++
 
@@ -70,7 +70,7 @@ updateExcel = (u_formula) => {
     workbook = XLSX.utils.book_new()
     worksheet = XLSX.utils.aoa_to_sheet(data)
 
-    worksheet = addFormulae(worksheet, last_column, u_formula)
+    worksheet = add_formulae(worksheet, last_column, u_formula)
 
     workbook.SheetNames.push("First")
     workbook.Sheets["First"] = worksheet
@@ -80,26 +80,26 @@ updateExcel = (u_formula) => {
 }
 
 /// Adds formulae to worksheet based on formula
-addFormulae = (ws, last_column, u_formula) => {
-    l_f = getLetter(last_column) // formulae column letter
-    l_u = getLetter(last_column + 1) // formulae uncertainty column letter
+add_formulae = (ws, last_column, u_formula) => {
+    l_f = get_letter(last_column) // formulae column letter
+    l_u = get_letter(last_column + 1) // formulae uncertainty column letter
 
     // TODO: check why math.evalueate differs from excel formulae values
-    console.log(convertFormula(u_formula))
+    console.log(convert_formula(u_formula))
     // ============ | INSERT FORMULAE | ==============
     // ==== | ORIGINAL FORMULA | ====
     ws[`${l_f}2`] = {
         t: "n",
         v: math.evaluate(formula_in.value, scope).toFixed(4),
         F: `${l_f}2:${l_f}6`,
-        f: convertFormula(formula_in.value) // convert formula given by user to match Excel notation
+        f: convert_formula(formula_in.value) // convert formula given by user to match Excel notation
     }
     // ==== | UNCERTAINTY FORMULA | ====
     ws[`${l_u}2`] = {
         t: "n",
         v: math.evaluate(u_formula, scope).toFixed(4),
         F: `${l_u}2:${l_u}6`,
-        f: convertFormula(u_formula) // convert uncertainty formula to match Excel notation
+        f: convert_formula(u_formula) // convert uncertainty formula to match Excel notation
     }
 
     // populate the rest of the rows
@@ -122,6 +122,6 @@ addFormulae = (ws, last_column, u_formula) => {
     return ws
 }
 
-downloadExcel = () => {
+download_excel = () => {
     XLSX.writeFile(workbook, "demo.xlsx")
 }

@@ -13,10 +13,11 @@
 <link rel="stylesheet" href="static/css/index.css">
 
 <h1>Formula:</h1>
-<input type="text" id="formula_in" onchange="updateLatex()" value="e^sin(x)">
-<div class="tex_container_general">
+<input type="text" id="formula_in" onchange="update_latex()" value="e^sin(x)">
+<!-- <div class="tex_container_general">
+    <button id="tex_btn_gen" onclick="copy_latex_gen()">Copy LateX</button>
     <p id="tex0"></p>
-</div>
+</div> -->
 <div id="params_container">
     <header>
         <h1>Params:</h1>
@@ -24,18 +25,18 @@
     </header>
 
     <div class="param_card">
-        <input type="text" id="params_in" class="param_name" value="x" onchange="updateLatex()">
-        <input type="number" class="param_value" value="10" onchange="updateLatex()">
-        <input type="number" class="param_uncer" value="0.1" onchange="updateLatex()">
+        <input type="text" id="params_in" class="param_name" value="x" onchange="update_latex()">
+        <input type="number" class="param_value" value="10" onchange="update_latex()">
+        <input type="number" class="param_uncer" value="0.1" onchange="update_latex()">
     </div>
 </div>
 <div class="tex_container_Uncertainity">
-    <button id="tex_btn" onclick="copyLatex()">Copy LaTeX</button>
+    <button id="tex_btn" onclick="copy_latex()">Copy LaTeX</button>
     <p id="tex"></p>
 </div>
 
 <div id="table_wrapper"></div>
-<button id="excel_btn" onclick="downloadExcel()">Download Excel</button>
+<button id="excel_btn" onclick="download_excel()">Download Excel</button>
 
 <script src="static/js/excel.js"></script>
 <script src="static/js/latex.js"></script>
