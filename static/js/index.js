@@ -38,4 +38,4 @@ updateParams = () => {
     })
 }
 
-updateLatex()
+window.onload = updateLatex
