@@ -13,10 +13,11 @@ convertFormula = formula => {
     formula = formula.replace(par_rg, prm => map.get(prm))
 
     // replace all special symbols
-    sym_rg = new RegExp("pi", "g")
+    sym_rg = new RegExp("pi|e", "g")
     formula = formula.replace(sym_rg, m => {
         return {
             "pi": "PI()",
+            "e": "EXP(1)"
         }[m]
     })
 
