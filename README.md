@@ -16,6 +16,12 @@ Contains [`main`](server/src/main.rs) binary file that runs Actix's [`HttpServer
 [`config.rs`](server/src/config.rs) loads variables from `.env` file.  
 [`routes.rs`](server/src/routes.rs) contains modules with [handlers](https://actix.rs/docs/handlers/). They're meant to assign bussiness logic to endpoints and handle exceptions.
 
+## Operation
+Run with 'cargo run' in the repo
+After server started successfully
+go to "$SERVER.HOST" + ":" + "$SERVER:PORT"
+in a browser of choosing
+
 
 ## Static folder
 Contains all static recsources that'll be exposed to client.

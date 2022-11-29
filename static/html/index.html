@@ -1,4 +1,8 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.3.2/math.js" integrity="sha512-L5ISzAYp4oiIeT5M/v2HCMmaRpSblbKEcbp7WFr9d+5E9WdzBEaMoseWUxAknpm+DomtjRkLyWdCptF5rw2DdQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.3.2/math.js"
+    integrity="sha512-L5ISzAYp4oiIeT5M/v2HCMmaRpSblbKEcbp7WFr9d+5E9WdzBEaMoseWUxAknpm+DomtjRkLyWdCptF5rw2DdQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!-- This key should be a secret -->
+
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.min.js"></script>
@@ -10,6 +14,9 @@
 
 <h1>Formula:</h1>
 <input type="text" id="formula_in" onchange="updateLatex()" value="e^sin(x)">
+<div class="tex_container_general">
+    <p id="tex0"></p>
+</div>
 <div id="params_container">
     <header>
         <h1>Params:</h1>
@@ -22,7 +29,7 @@
         <input type="number" class="param_uncer" value="0.1" onchange="updateLatex()">
     </div>
 </div>
-<div class="tex_container">
+<div class="tex_container_Uncertainity">
     <button id="tex_btn" onclick="copyLatex()">Copy LaTeX</button>
     <p id="tex"></p>
 </div>

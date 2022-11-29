@@ -10,10 +10,10 @@ convertFormula = formula => {
     w = []
     map.forEach((v, k) => { w.push(k) })
     par_rg = new RegExp(`(?<!u)(${w.join("|")})`, "g")
-    formula = formula.replace(par_rg, prm => map.get(prm) ) 
+    formula = formula.replace(par_rg, prm => map.get(prm))
 
     // replace all special symbols
-    sym_rg = new RegExp("pi", "g")    
+    sym_rg = new RegExp("pi", "g")
     formula = formula.replace(sym_rg, m => {
         return {
             "pi": "PI()",
@@ -34,7 +34,7 @@ updateExcel = (u_formula) => {
     last_column = 1 // to determine which column is currently being populated
 
     // create matrice of params' names, values and uncertainty
-    for(p of params) {
+    for (p of params) {
         // add map key/value
         l = getLetter(last_column)
         map.set(p.name, `${l}2:${l}6`)
@@ -42,7 +42,7 @@ updateExcel = (u_formula) => {
 
 
         //  if param is a constant, fill the column with param's value and skip uncer column
-        if(p.is_const) {
+        if (p.is_const) {
             column = [p.name, ...Array(5).fill(p.value)]
             data.push(column)
             continue
@@ -65,11 +65,11 @@ updateExcel = (u_formula) => {
     // to get the letter of column where data matrice ends
     data.push(["y"], ["u(y)"])
     data = transpose(data)
-    
+
     // generate XLSX workbook based on data
     workbook = XLSX.utils.book_new()
     worksheet = XLSX.utils.aoa_to_sheet(data)
-    
+
     worksheet = addFormulae(worksheet, last_column, u_formula)
 
     workbook.SheetNames.push("First")
@@ -82,40 +82,40 @@ updateExcel = (u_formula) => {
 /// Adds formulae to worksheet based on formula
 addFormulae = (ws, last_column, u_formula) => {
     l_f = getLetter(last_column) // formulae column letter
-    l_u = getLetter(last_column+1) // formulae uncertainty column letter
+    l_u = getLetter(last_column + 1) // formulae uncertainty column letter
 
     // TODO: check why math.evalueate differs from excel formulae values
     console.log(convertFormula(u_formula))
     // ============ | INSERT FORMULAE | ==============
     // ==== | ORIGINAL FORMULA | ====
-    ws[`${l_f}2`] = { 
-        t: "n", 
-        v: math.evaluate(formula_in.value, scope).toFixed(4), 
-        F: `${l_f}2:${l_f}6`, 
+    ws[`${l_f}2`] = {
+        t: "n",
+        v: math.evaluate(formula_in.value, scope).toFixed(4),
+        F: `${l_f}2:${l_f}6`,
         f: convertFormula(formula_in.value) // convert formula given by user to match Excel notation
     }
     // ==== | UNCERTAINTY FORMULA | ====
-    ws[`${l_u}2`] = { 
-        t: "n", 
-        v: math.evaluate(u_formula, scope).toFixed(4), 
-        F: `${l_u}2:${l_u}6`, 
+    ws[`${l_u}2`] = {
+        t: "n",
+        v: math.evaluate(u_formula, scope).toFixed(4),
+        F: `${l_u}2:${l_u}6`,
         f: convertFormula(u_formula) // convert uncertainty formula to match Excel notation
     }
 
     // populate the rest of the rows
-    for(i = 3; i <= 6; i++) {
-        scope.forEach( (v, k) => scope.set(k, v+1))
+    for (i = 3; i <= 6; i++) {
+        scope.forEach((v, k) => scope.set(k, v + 1))
         // ==== | ORIGINAL FORMULA | ====
-        ws[`${l_f}${i}`] = { 
-            t: "n", 
-            v: math.evaluate(formula_in.value, scope).toFixed(4), 
-            F: `${l_f}2:${l_f}6` 
+        ws[`${l_f}${i}`] = {
+            t: "n",
+            v: math.evaluate(formula_in.value, scope).toFixed(4),
+            F: `${l_f}2:${l_f}6`
         }
         // ==== | UNCERTAINTY FORMULA | ====
-        ws[`${l_u}${i}`] = { 
-            t: "n", 
-            v: math.evaluate(u_formula, scope).toFixed(4), 
-            F: `${l_u}2:${l_u}6` 
+        ws[`${l_u}${i}`] = {
+            t: "n",
+            v: math.evaluate(u_formula, scope).toFixed(4),
+            F: `${l_u}2:${l_u}6`
         }
     }
 
