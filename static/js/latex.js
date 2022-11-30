@@ -46,10 +46,12 @@ updateLatex = () => {
     u_formula += ")^.5"
 
     // ========= | DISPLAY LATEX | ========
-    latex =`${general_latex} = ${evaluated_latex} = ${ math.evaluate(u_formula, scope).toFixed(4) }`
+    f_latex = `${math.parse(formula_in.value).toTex()} = ${math.evaluate(formula_in.value, scope).toFixed(4)}`  //  original  formula LaTeX
+    u_latex =`${general_latex} = ${evaluated_latex} = ${ math.evaluate(u_formula, scope).toFixed(4) }`          // uncertainty formula LaTeX
 
-    tex_btn.value = latex // LaTeX is stored in this button's value so it could be copied by user
-    tex.innerHTML = `\\[ ${ latex } \\]`
+    tex_btn.value = `${f_latex} \\\\ ${u_latex}` // LaTeX is stored in this button's value so it could be copied by user
+    f_tex.innerHTML = `\\[ ${ f_latex } \\]`     // display   original  formula LaTeX
+    u_tex.innerHTML = `\\[ ${ u_latex } \\]`     // display uncertainty formula LaTeX
 
     // rerender LaTeX on page
     MathJax.typesetPromise()
