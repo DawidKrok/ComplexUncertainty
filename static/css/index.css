@@ -17,13 +17,16 @@
     font-size: 6vh;
 }
 
-.param_card {
+.param_card,
+.param_header {
     margin: 2vh 0;
     display: flex;
     justify-content: space-between;
 }
 
-.param_card > input {
+
+.param_card > input,
+.param_header > p {
     width: 10vw;
 }
 

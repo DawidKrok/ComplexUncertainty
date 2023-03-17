@@ -8,20 +8,27 @@
 
 <link rel="stylesheet" href="static/css/index.css">
 
-<h1>Formula:</h1>
+h1>Formula:</h1>
 <input type="text" id="formula_in" onchange="updateLatex()" value="e^sin(x)">
+<hr>
 <div id="params_container">
     <header>
         <h1>Params:</h1>
         <button id="param_add">+</button>
     </header>
 
+    <div class="param_header">
+        <p>Name</p>
+        <p>Value</p>
+        <p>Uncertainty</p>
+    </div>
     <div class="param_card">
         <input type="text" id="params_in" class="param_name" value="x" onchange="updateLatex()">
         <input type="number" class="param_value" value="10" onchange="updateLatex()">
         <input type="number" class="param_uncer" value="0.1" onchange="updateLatex()">
     </div>
 </div>
+<hr>
 <div class="tex_container">
     <button id="tex_btn" onclick="copyLatex()">Copy LaTeX</button>
     <p id="f_tex"></p>
